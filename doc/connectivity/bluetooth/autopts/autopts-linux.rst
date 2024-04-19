@@ -6,6 +6,9 @@ AutoPTS on Linux
 This tutorial shows how to setup AutoPTS client on Linux with AutoPTS server running on Windows 10
 virtual machine. Tested with Ubuntu 20.4 and Linux Mint 20.4.
 
+For more details on AutoPTS and the various options available to you, 
+visit the AutoPTS GitHub page https://github.com/auto-pts/auto-pts .
+
 You must have a Zephyr development environment set up. See
 :ref:`getting_started` for details.
 
@@ -50,7 +53,7 @@ Setup Windows 10 virtual machine
 ==================================
 
 Choose and install your hypervisor like VMWare Workstation(preferred) or
-VirtualBox. On VirtualBox could be some issues, if your host has fewer than 6 CPU.
+VirtualBox. Performance on VirtualBox could present issues, if your host has fewer than 6 CPU.
 
 Create Windows virtual machine instance. Make sure it has at least 2 cores and
 installed guest extensions.
@@ -217,11 +220,14 @@ Connect devices (only required in the actual hardware test mode)
 Flash board (only required in the actual hardware test mode)
 ============================================================
 
-On Linux, go to ~/zephyrproject. There should be already ~/zephyrproject/build
-directory. Flash board:
+On Linux, go to ~/zephyrproject. Assuming you are using an nRF52840, 
+perform the following steps:
 
 .. code-block::
 
+    cd ~/zephyrproject
+    source .venv/bin/activate
+    west build --pristine -b nrf52840dk_nrf52840 tests/bluetooth/tester -DOVERLAY_CONFIG=overlay-le-audio.conf
     west flash
 
 Setup auto-pts project
@@ -234,6 +240,7 @@ Clone auto-pts project:
 
 .. code-block::
 
+    cd ~/
     git clone https://github.com/intel/auto-pts.git
 
 
@@ -271,8 +278,10 @@ Restart virtual machine.
 
 Running AutoPTS
 ================
+AutoPTS server on Windows
+------------------------
 
-Server and client by default will run on localhost address. Run server:
+Server and client by default will run on localhost address. On Windows, run server:
 
 .. code-block::
 
@@ -318,7 +327,10 @@ Testing Zephyr combined (controller + host) build on nRF52:
 
       pip install --upgrade --force-reinstall pywin32
 
-Run client:
+AutoPTS client on Linux
+------------------------
+
+On Linux, run client:
 
 .. code-block::
 
